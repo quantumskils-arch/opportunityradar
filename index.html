@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpportunityRadar — East Africa</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0e0e0e;
+  --ink2: #4a4a4a;
+  --ink3: #888;
+  --border: #e8e8e8;
+  --surface: #f7f6f3;
+  --white: #ffffff;
+  --teal: #0f6e56;
+  --teal-light: #e1f5ee;
+  --teal-mid: #1d9e75;
+  --amber: #854f0b;
+  --amber-light: #faeeda;
+  --blue: #185fa5;
+  --blue-light: #e6f1fb;
+  --purple: #3c3489;
+  --purple-light: #eeedfe;
+  --red: #a32d2d;
+  --red-light: #fcebeb;
+  --radius: 10px;
+  --radius-lg: 16px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'DM Sans', sans-serif; background: var(--surface); color: var(--ink); min-height: 100vh; }
+a { color: inherit; text-decoration: none; }
+
+/* NAV */
+nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 58px; position: sticky; top: 0; z-index: 100;
+}
+.logo { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+.logo-dot { width: 8px; height: 8px; background: var(--teal-mid); border-radius: 50%; display: inline-block; }
+.nav-links { display: flex; align-items: center; gap: 6px; }
+.nav-pill {
+  padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer;
+  border: 1px solid transparent; background: transparent; color: var(--ink2);
+  transition: all .15s;
+}
+.nav-pill:hover { background: var(--surface); }
+.nav-pill.active { background: var(--teal-light); color: var(--teal); border-color: #9fe1cb; }
+.nav-cta {
+  background: var(--teal); color: var(--white); border: none; padding: 7px 18px;
+  border-radius: 20px; font-size: 13px; font-weight: 500; cursor: pointer; transition: opacity .15s;
+}
+.nav-cta:hover { opacity: .88; }
+.nav-country {
+  font-size: 12px; color: var(--ink3); border: 1px solid var(--border); border-radius: 20px;
+  padding: 5px 12px; cursor: pointer; background: var(--white);
+}
+
+/* HERO STRIP */
+.hero-strip {
+  background: var(--teal);
+  color: var(--white);
+  padding: 3rem 2rem 2.5rem;
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem;
+}
+.hero-title { font-family: 'DM Serif Display', serif; font-size: 38px; line-height: 1.15; margin-bottom: .75rem; }
+.hero-sub { font-size: 14px; opacity: .8; max-width: 440px; line-height: 1.6; }
+.hero-stats { display: flex; gap: 2rem; flex-shrink: 0; }
+.hstat { text-align: right; }
+.hstat-val { font-family: 'DM Serif Display', serif; font-size: 32px; }
+.hstat-lbl { font-size: 11px; opacity: .7; margin-top: 2px; }
+
+/* TICKER */
+.ticker-bar {
+  background: #0a5040;
+  color: #9fe1cb;
+  font-size: 12px; font-weight: 500;
+  padding: 7px 2rem;
+  overflow: hidden; white-space: nowrap;
+}
+.ticker-inner { display: inline-block; animation: tick 28s linear infinite; }
+@keyframes tick { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* MAIN LAYOUT */
+.main { display: grid; grid-template-columns: 260px 1fr; gap: 0; min-height: calc(100vh - 130px); }
+
+/* SIDEBAR */
+.sidebar { background: var(--white); border-right: 1px solid var(--border); padding: 1.5rem 1.25rem; }
+.sidebar-section { margin-bottom: 1.75rem; }
+.sidebar-label { font-size: 10px; font-weight: 600; color: var(--ink3); text-transform: uppercase; letter-spacing: .08em; margin-bottom: .75rem; }
+.filter-group { display: flex; flex-direction: column; gap: 4px; }
+.filter-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 10px; border-radius: 8px; cursor: pointer; font-size: 13px; color: var(--ink2);
+  transition: background .12s;
+}
+.filter-item:hover { background: var(--surface); }
+.filter-item.sel { background: var(--teal-light); color: var(--teal); font-weight: 500; }
+.filter-count { font-size: 11px; color: var(--ink3); background: var(--surface); padding: 2px 7px; border-radius: 10px; }
+.filter-item.sel .filter-count { background: #9fe1cb; color: var(--teal); }
+
+.country-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.country-btn {
+  padding: 7px 8px; border: 1px solid var(--border); border-radius: 8px;
+  font-size: 12px; cursor: pointer; background: var(--white); color: var(--ink2);
+  text-align: center; transition: all .12s;
+}
+.country-btn:hover { border-color: #9fe1cb; }
+.country-btn.sel { background: var(--teal-light); border-color: var(--teal-mid); color: var(--teal); font-weight: 500; }
+
+.deadline-filters { display: flex; flex-direction: column; gap: 4px; }
+.dl-btn {
+  padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px;
+  font-size: 12px; cursor: pointer; background: var(--white); color: var(--ink2);
+  text-align: left; transition: all .12s;
+}
+.dl-btn:hover { background: var(--surface); }
+.dl-btn.sel { background: var(--amber-light); border-color: #fac775; color: var(--amber); font-weight: 500; }
+
+/* CONTENT */
+.content { padding: 1.5rem 1.75rem; }
+
+/* SEARCH + CONTROLS */
+.search-row { display: flex; gap: 10px; margin-bottom: 1.25rem; }
+.search-wrap { flex: 1; position: relative; }
+.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--ink3); font-size: 15px; }
+.search-input {
+  width: 100%; height: 40px; border: 1px solid var(--border); border-radius: 10px;
+  padding: 0 12px 0 36px; font-size: 14px; font-family: 'DM Sans', sans-serif;
+  background: var(--white); color: var(--ink); outline: none; transition: border-color .15s;
+}
+.search-input:focus { border-color: var(--teal-mid); }
+.sort-select {
+  height: 40px; border: 1px solid var(--border); border-radius: 10px;
+  padding: 0 12px; font-size: 13px; font-family: 'DM Sans', sans-serif;
+  background: var(--white); color: var(--ink); outline: none; cursor: pointer;
+}
+
+/* TABS */
+.stream-tabs { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 1.25rem; }
+.stream-tab {
+  padding: 10px 20px; font-size: 13px; font-weight: 500; cursor: pointer;
+  border: none; background: transparent; color: var(--ink3);
+  border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all .15s;
+}
+.stream-tab:hover { color: var(--ink); }
+.stream-tab.on { color: var(--teal); border-bottom-color: var(--teal); }
+.stream-tab .tab-count {
+  display: inline-block; background: var(--teal-light); color: var(--teal);
+  font-size: 11px; padding: 1px 7px; border-radius: 10px; margin-left: 6px;
+}
+
+/* RESULTS HEADER */
+.results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.results-count { font-size: 13px; color: var(--ink3); }
+.results-count strong { color: var(--ink); }
+.view-toggle { display: flex; gap: 4px; }
+.vt-btn {
+  width: 32px; height: 32px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--white); cursor: pointer; display: flex; align-items: center; justify-content: center;
+  color: var(--ink3); font-size: 14px; transition: all .12s;
+}
+.vt-btn.on { background: var(--teal-light); border-color: var(--teal-mid); color: var(--teal); }
+
+/* OPPORTUNITY CARDS */
+.opp-list { display: flex; flex-direction: column; gap: 10px; }
+.opp-card {
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg);
+  padding: 1.1rem 1.25rem; cursor: pointer; transition: border-color .15s;
+  position: relative; overflow: hidden;
+}
+.opp-card:hover { border-color: #9fe1cb; }
+.opp-card.locked { opacity: .75; }
+.opp-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: .6rem; }
+.opp-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: .5rem; }
+.badge {
+  font-size: 11px; font-weight: 500; padding: 2px 9px; border-radius: 20px;
+}
+.b-tender { background: var(--teal-light); color: var(--teal); }
+.b-job { background: var(--blue-light); color: var(--blue); }
+.b-grant { background: var(--purple-light); color: var(--purple); }
+.b-ug { background: #FFF3E0; color: #BF6000; }
+.b-ke { background: #E8F5E9; color: #2E7D32; }
+.b-tz { background: #E3F2FD; color: #1565C0; }
+.b-rw { background: #FCE4EC; color: #880E4F; }
+.b-et { background: #F3E5F5; color: #6A1B9A; }
+.b-int { background: var(--surface); color: var(--ink2); }
+.b-new { background: #ffedd5; color: #9a3412; }
+.b-hot { background: var(--red-light); color: var(--red); }
+.b-urgent { background: var(--amber-light); color: var(--amber); }
+.opp-title { font-size: 15px; font-weight: 500; color: var(--ink); line-height: 1.4; margin-bottom: .3rem; }
+.opp-org { font-size: 13px; color: var(--ink3); }
+.opp-meta { display: flex; align-items: center; gap: 1.25rem; margin-top: .7rem; }
+.opp-meta-item { font-size: 12px; color: var(--ink3); display: flex; align-items: center; gap: 4px; }
+.opp-meta-item svg { width: 13px; height: 13px; }
+.deadline-chip {
+  font-size: 12px; font-weight: 500; padding: 3px 10px; border-radius: 20px;
+}
+.dl-urgent { background: var(--amber-light); color: var(--amber); }
+.dl-ok { background: var(--teal-light); color: var(--teal); }
+.dl-soon { background: var(--blue-light); color: var(--blue); }
+.opp-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; flex-shrink: 0; }
+.save-btn {
+  width: 32px; height: 32px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--white); cursor: pointer; display: flex; align-items: center; justify-content: center;
+  color: var(--ink3); font-size: 14px; transition: all .15s;
+}
+.save-btn.saved { background: var(--teal-light); border-color: var(--teal-mid); color: var(--teal); }
+.value-chip {
+  font-size: 12px; font-weight: 500; background: var(--surface); color: var(--ink2);
+  padding: 3px 10px; border-radius: 20px;
+}
+.lock-overlay {
+  position: absolute; inset: 0; backdrop-filter: blur(4px);
+  background: rgba(255,255,255,.6);
+  display: flex; align-items: center; justify-content: center; border-radius: var(--radius-lg);
+}
+.lock-msg {
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: .75rem 1.25rem; font-size: 13px; color: var(--ink2); display: flex; align-items: center; gap: 10px;
+}
+.lock-msg button {
+  background: var(--teal); color: var(--white); border: none; padding: 5px 14px;
+  border-radius: 20px; font-size: 12px; font-weight: 500; cursor: pointer;
+}
+
+/* STATS ROW */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+.stat-card {
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: .9rem 1rem;
+}
+.stat-val { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--ink); }
+.stat-lbl { font-size: 11px; color: var(--ink3); margin-top: 2px; }
+.stat-delta { font-size: 11px; color: var(--teal); margin-top: 4px; }
+
+/* PRICING SECTION */
+.pricing-section { background: var(--white); border-top: 1px solid var(--border); padding: 3rem 2rem; }
+.pricing-title { font-family: 'DM Serif Display', serif; font-size: 28px; text-align: center; margin-bottom: .5rem; }
+.pricing-sub { text-align: center; color: var(--ink3); font-size: 14px; margin-bottom: 2rem; }
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 860px; margin: 0 auto; }
+.price-card {
+  border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem;
+  background: var(--white);
+}
+.price-card.featured { border: 2px solid var(--teal-mid); }
+.price-name { font-size: 13px; font-weight: 500; color: var(--ink3); margin-bottom: .5rem; }
+.price-amount { font-family: 'DM Serif Display', serif; font-size: 32px; color: var(--ink); }
+.price-period { font-size: 13px; color: var(--ink3); }
+.price-ugx { font-size: 12px; color: var(--ink3); margin-bottom: 1rem; }
+.price-features { list-style: none; font-size: 13px; color: var(--ink2); display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.25rem; }
+.price-features li::before { content: '✓ '; color: var(--teal-mid); font-weight: 500; }
+.price-features li.no::before { content: '✕ '; color: var(--border); }
+.price-features li.no { color: var(--ink3); }
+.price-btn {
+  width: 100%; padding: 10px; border-radius: 10px; font-size: 14px; font-weight: 500;
+  cursor: pointer; border: 1px solid var(--border); background: var(--surface); color: var(--ink);
+  font-family: 'DM Sans', sans-serif; transition: all .15s;
+}
+.price-card.featured .price-btn { background: var(--teal); color: var(--white); border-color: var(--teal); }
+.price-btn:hover { opacity: .88; }
+
+/* FOOTER */
+footer {
+  background: var(--ink); color: #888; font-size: 12px;
+  padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between;
+}
+footer .logo { color: var(--white); font-size: 16px; }
+
+/* MODAL */
+.modal-bg {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45);
+  z-index: 200; align-items: center; justify-content: center;
+}
+.modal-bg.open { display: flex; }
+.modal {
+  background: var(--white); border-radius: var(--radius-lg); padding: 2rem;
+  width: 500px; max-width: 95vw; position: relative;
+}
+.modal-close {
+  position: absolute; top: 1rem; right: 1rem; background: var(--surface);
+  border: none; border-radius: 8px; width: 30px; height: 30px; cursor: pointer;
+  font-size: 16px; display: flex; align-items: center; justify-content: center; color: var(--ink2);
+}
+.modal-title { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: .4rem; }
+.modal-sub { font-size: 13px; color: var(--ink3); margin-bottom: 1.25rem; line-height: 1.5; }
+.modal-field { margin-bottom: 1rem; }
+.modal-field label { display: block; font-size: 12px; font-weight: 500; color: var(--ink2); margin-bottom: 5px; }
+.modal-field input, .modal-field select {
+  width: 100%; height: 40px; border: 1px solid var(--border); border-radius: 9px;
+  padding: 0 12px; font-size: 14px; font-family: 'DM Sans', sans-serif;
+  background: var(--white); color: var(--ink); outline: none;
+}
+.modal-field input:focus { border-color: var(--teal-mid); }
+.modal-submit {
+  width: 100%; height: 44px; background: var(--teal); color: var(--white);
+  border: none; border-radius: 10px; font-size: 15px; font-weight: 500;
+  font-family: 'DM Sans', sans-serif; cursor: pointer; transition: opacity .15s;
+}
+.modal-submit:hover { opacity: .88; }
+.modal-success { text-align: center; padding: 1rem 0; }
+.modal-success .big { font-size: 40px; margin-bottom: .5rem; }
+.modal-success p { font-size: 14px; color: var(--ink2); line-height: 1.6; }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 2rem; right: 2rem; background: var(--ink);
+  color: var(--white); padding: .75rem 1.25rem; border-radius: 10px;
+  font-size: 13px; z-index: 300; transform: translateY(80px); opacity: 0;
+  transition: all .3s; pointer-events: none;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <span class="logo-dot"></span>
+    OpportunityRadar
+  </div>
+  <div class="nav-links">
+    <button class="nav-pill active" onclick="setStream('all')">All opportunities</button>
+    <button class="nav-pill" onclick="setStream('tender')">Tenders</button>
+    <button class="nav-pill" onclick="setStream('job')">Jobs</button>
+    <button class="nav-pill" onclick="setStream('grant')">Grants</button>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="nav-country" onclick="openModal()">🇺🇬 Uganda · Free trial</button>
+    <button class="nav-cta" onclick="openModal()">Subscribe →</button>
+  </div>
+</nav>
+
+<div class="hero-strip">
+  <div>
+    <div class="hero-title">East Africa's opportunity<br><em>intelligence platform</em></div>
+    <div class="hero-sub">Every tender, vacancy & grant across Uganda, Kenya, Tanzania, Rwanda and Ethiopia — scraped from 60+ sources, delivered daily.</div>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat">
+      <div class="hstat-val" id="live-count">247</div>
+      <div class="hstat-lbl">new today</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val">60+</div>
+      <div class="hstat-lbl">sources scraped</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val">5</div>
+      <div class="hstat-lbl">countries</div>
+    </div>
+  </div>
+</div>
+
+<div class="ticker-bar">
+  <span class="ticker-inner" id="ticker-text"></span>
+</div>
+
+<div class="main">
+  <div class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Category</div>
+      <div class="filter-group" id="cat-filters"></div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Country</div>
+      <div class="country-grid" id="country-filters"></div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Deadline</div>
+      <div class="deadline-filters">
+        <button class="dl-btn sel" onclick="setDl(this,'all')">All deadlines</button>
+        <button class="dl-btn" onclick="setDl(this,'7')">Closing in 7 days</button>
+        <button class="dl-btn" onclick="setDl(this,'14')">Closing in 14 days</button>
+        <button class="dl-btn" onclick="setDl(this,'30')">Closing in 30 days</button>
+      </div>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Source</div>
+      <div class="filter-group">
+        <div class="filter-item sel" onclick="toggleSrc(this,'all')">All sources <span class="filter-count">60+</span></div>
+        <div class="filter-item" onclick="toggleSrc(this,'gov')">Government <span class="filter-count">24</span></div>
+        <div class="filter-item" onclick="toggleSrc(this,'un')">UN & multilateral <span class="filter-count">12</span></div>
+        <div class="filter-item" onclick="toggleSrc(this,'ngo')">NGO & INGO <span class="filter-count">18</span></div>
+        <div class="filter-item" onclick="toggleSrc(this,'corp')">Corporate <span class="filter-count">8</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-val" id="s-tenders">142</div>
+        <div class="stat-lbl">Tenders today</div>
+        <div class="stat-delta">↑ 18 from yesterday</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="s-jobs">89</div>
+        <div class="stat-lbl">Jobs today</div>
+        <div class="stat-delta">↑ 11 from yesterday</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val" id="s-grants">16</div>
+        <div class="stat-lbl">Grants & scholarships</div>
+        <div class="stat-delta">↑ 3 from yesterday</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-val">$2.4B</div>
+        <div class="stat-lbl">Est. contract value</div>
+        <div class="stat-delta">Active tenders this month</div>
+      </div>
+    </div>
+
+    <div class="search-row">
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input class="search-input" id="search-input" placeholder="Search tenders, jobs, organisations..." oninput="renderCards()">
+      </div>
+      <select class="sort-select" id="sort-sel" onchange="renderCards()">
+        <option value="newest">Newest first</option>
+        <option value="deadline">Deadline soonest</option>
+        <option value="value">Highest value</option>
+      </select>
+    </div>
+
+    <div class="stream-tabs">
+      <button class="stream-tab on" onclick="setTab(this,'all')">All <span class="tab-count" id="tc-all">247</span></button>
+      <button class="stream-tab" onclick="setTab(this,'tender')">Tenders <span class="tab-count" id="tc-tender">142</span></button>
+      <button class="stream-tab" onclick="setTab(this,'job')">Jobs <span class="tab-count" id="tc-job">89</span></button>
+      <button class="stream-tab" onclick="setTab(this,'grant')">Grants <span class="tab-count" id="tc-grant">16</span></button>
+    </div>
+
+    <div class="results-header">
+      <div class="results-count"><strong id="result-count">247</strong> opportunities found · updated 6:02 AM today</div>
+      <div class="view-toggle">
+        <button class="vt-btn on" title="List view">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        </button>
+        <button class="vt-btn" title="Grid view">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="opp-list" id="opp-list"></div>
+  </div>
+</div>
+
+<div class="pricing-section">
+  <div class="pricing-title">Simple, honest pricing</div>
+  <div class="pricing-sub">Pay once. Get every opportunity across East Africa. Cancel anytime via MTN Mobile Money.</div>
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="price-name">Seeker</div>
+      <div class="price-amount">$4 <span class="price-period">/mo</span></div>
+      <div class="price-ugx">≈ UGX 15,000/month</div>
+      <ul class="price-features">
+        <li>Daily WhatsApp digest</li>
+        <li>Job vacancies only</li>
+        <li>2 country alerts</li>
+        <li>Email delivery</li>
+        <li class="no">Tender access</li>
+        <li class="no">Grants & scholarships</li>
+        <li class="no">Saved searches</li>
+      </ul>
+      <button class="price-btn" onclick="openModal()">Start free trial</button>
+    </div>
+    <div class="price-card featured">
+      <div style="background:var(--teal-light);color:var(--teal);font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:.75rem">Most popular</div>
+      <div class="price-name">Business</div>
+      <div class="price-amount">$20 <span class="price-period">/mo</span></div>
+      <div class="price-ugx">≈ UGX 75,000/month</div>
+      <ul class="price-features">
+        <li>Everything in Seeker</li>
+        <li>Full tender access</li>
+        <li>All 5 countries</li>
+        <li>Saved searches + alerts</li>
+        <li>Deadline reminders</li>
+        <li>Grants & scholarships</li>
+        <li class="no">API access</li>
+      </ul>
+      <button class="price-btn" onclick="openModal()">Start free trial</button>
+    </div>
+    <div class="price-card">
+      <div class="price-name">Agency / Firm</div>
+      <div class="price-amount">$50 <span class="price-period">/mo</span></div>
+      <div class="price-ugx">≈ UGX 185,000/month</div>
+      <ul class="price-features">
+        <li>Everything in Business</li>
+        <li>Up to 5 team members</li>
+        <li>API access</li>
+        <li>Historical data archive</li>
+        <li>Priority WhatsApp alerts</li>
+        <li>Custom category filters</li>
+        <li>Dedicated support</li>
+      </ul>
+      <button class="price-btn" onclick="openModal()">Contact us</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="logo">
+    <span class="logo-dot" style="background:#1d9e75"></span>
+    OpportunityRadar
+  </div>
+  <div>Scraping 60+ sources across Uganda · Kenya · Tanzania · Rwanda · Ethiopia — updated daily at 6:00 AM EAT</div>
+  <div>© 2025 OpportunityRadar EA</div>
+</footer>
+
+<div class="modal-bg" id="modal-bg" onclick="closeModalBg(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-content">
+      <div class="modal-title">Start your free 14-day trial</div>
+      <div class="modal-sub">No card needed. Get every tender, job and grant across East Africa delivered to your WhatsApp every morning.</div>
+      <div class="modal-field">
+        <label>Full name</label>
+        <input type="text" placeholder="Your name">
+      </div>
+      <div class="modal-field">
+        <label>WhatsApp number</label>
+        <input type="text" placeholder="+256 700 000000">
+      </div>
+      <div class="modal-field">
+        <label>Email address</label>
+        <input type="email" placeholder="you@company.com">
+      </div>
+      <div class="modal-field">
+        <label>I am primarily looking for...</label>
+        <select>
+          <option>Tenders & procurement contracts</option>
+          <option>Job vacancies</option>
+          <option>Grants & scholarships</option>
+          <option>All of the above</option>
+        </select>
+      </div>
+      <button class="modal-submit" onclick="submitTrial()">Start free trial — 14 days free</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const DATA = [
+  { id:1, type:'tender', title:'Supply of IT Equipment and Software Licenses 2025', org:'Ministry of Education Uganda', country:'UG', cat:'IT & Technology', value:'UGX 2.4B', deadline:4, source:'PPDA', new:true, hot:false },
+  { id:2, type:'job', title:'Senior Programme Officer — Livelihoods', org:'UNHCR Uganda', country:'UG', cat:'Development', value:'$3,200/mo', deadline:8, source:'UNGM', new:true, hot:true },
+  { id:3, type:'tender', title:'Construction of 3 District Health Centres — Kisumu County', org:'Kisumu County Government', country:'KE', cat:'Construction', value:'KES 180M', deadline:2, source:'PPRA Kenya', new:false, hot:true },
+  { id:4, type:'grant', title:'Mastercard Foundation Scholars Program 2026 — MUST', org:'Mastercard Foundation', country:'INT', cat:'Scholarship', value:'Full scholarship', deadline:21, source:'MCF', new:true, hot:false },
+  { id:5, type:'tender', title:'Procurement of Medical Supplies and Pharmaceuticals Q2', org:'National Medical Stores', country:'UG', cat:'Health & Pharma', value:'UGX 8.6B', deadline:6, source:'NMS', new:false, hot:true },
+  { id:6, type:'job', title:'Country Director — Tanzania', org:'Mercy Corps', country:'TZ', cat:'NGO Management', value:'Competitive', deadline:14, source:'ReliefWeb', new:false, hot:false },
+  { id:7, type:'tender', title:'Road Rehabilitation — Northern Corridor Phase III', org:'Uganda National Roads Authority', country:'UG', cat:'Infrastructure', value:'UGX 45B', deadline:18, source:'PPDA', new:false, hot:false },
+  { id:8, type:'tender', title:'Supply of Solar Systems for Rural Electrification', org:'Rwanda Energy Group', country:'RW', cat:'Energy', value:'RWF 900M', deadline:11, source:'RPPA', new:true, hot:false },
+  { id:9, type:'job', title:'Financial Controller — East Africa Region', org:'Aga Khan Foundation', country:'KE', cat:'Finance', value:'$4,500/mo', deadline:10, source:'AKF', new:false, hot:false },
+  { id:10, type:'tender', title:'Consultancy: Environmental Impact Assessment', org:'World Bank Uganda', country:'UG', cat:'Consulting', value:'$85,000', deadline:7, source:'World Bank', new:true, hot:false },
+  { id:11, type:'grant', title:'DAAD In-Country Scholarships — East African Universities', org:'DAAD Germany', country:'INT', cat:'Scholarship', value:'Full funding', deadline:30, source:'DAAD', new:false, hot:false },
+  { id:12, type:'tender', title:'Fleet Management & Vehicle Maintenance Services', org:'UMEME Limited', country:'UG', cat:'Services', value:'UGX 1.2B', deadline:5, source:'UMEME', new:false, hot:true },
+  { id:13, type:'job', title:'Data Scientist — Agriculture Analytics', org:'iDE Ethiopia', country:'ET', cat:'Technology', value:'Competitive', deadline:16, source:'Devex', new:true, hot:false },
+  { id:14, type:'tender', title:'Supply and Installation of Water Treatment Plant', org:'NWSC Uganda', country:'UG', cat:'Water & Sanitation', value:'UGX 12B', deadline:25, source:'NWSC', new:false, hot:false },
+  { id:15, type:'grant', title:'Ford Foundation Initiative for Equity — East Africa', org:'Ford Foundation', country:'INT', cat:'Institutional Grant', value:'Up to $500,000', deadline:45, source:'Ford', new:true, hot:false },
+  { id:16, type:'tender', title:'Printing and Binding of Government Publications 2025', org:'Government Printer Kenya', country:'KE', cat:'Services', value:'KES 45M', deadline:9, source:'MyGov Kenya', new:false, hot:false },
+  { id:17, type:'job', title:'Head of Communications & PR', org:'Uganda Revenue Authority', country:'UG', cat:'Communications', value:'Competitive', deadline:12, source:'PSC Uganda', new:true, hot:false },
+  { id:18, type:'tender', title:'ICT Infrastructure Upgrade — Revenue Management System', org:'Tanzania Revenue Authority', country:'TZ', cat:'IT & Technology', value:'TZS 4.2B', deadline:20, source:'PPRA Tanzania', new:false, hot:false },
+];
+
+const CATS = ['IT & Technology','Construction','Health & Pharma','Infrastructure','Consulting','Services','Energy','Development','NGO Management','Finance','Communications','Water & Sanitation','Scholarship','Institutional Grant','Agriculture'];
+const COUNTRIES = [{code:'UG',name:'Uganda',flag:'🇺🇬'},{code:'KE',name:'Kenya',flag:'🇰🇪'},{code:'TZ',name:'Tanzania',flag:'🇹🇿'},{code:'RW',name:'Rwanda',flag:'🇷🇼'},{code:'ET',name:'Ethiopia',flag:'🇪🇹'},{code:'INT',name:'International',flag:'🌍'}];
+
+let activeStream = 'all';
+let activeDl = 'all';
+let savedItems = new Set();
+
+function buildSidebar() {
+  const cf = document.getElementById('cat-filters');
+  const counts = {};
+  CATS.forEach(c => { counts[c] = DATA.filter(d => d.cat === c).length; });
+  cf.innerHTML = CATS.filter(c => counts[c] > 0).map(c =>
+    `<div class="filter-item" onclick="toggleCat(this,'${c}')">${c} <span class="filter-count">${counts[c]}</span></div>`
+  ).join('');
+
+  const ctf = document.getElementById('country-filters');
+  ctf.innerHTML = COUNTRIES.map(c =>
+    `<button class="country-btn" onclick="toggleCountry(this,'${c.code}')">${c.flag} ${c.name}</button>`
+  ).join('');
+}
+
+function toggleCat(el, cat) {
+  el.classList.toggle('sel');
+  renderCards();
+}
+function toggleCountry(el, code) {
+  el.classList.toggle('sel');
+  renderCards();
+}
+function toggleSrc(el, src) {
+  document.querySelectorAll('#src-filters .filter-item').forEach(e => e.classList.remove('sel'));
+  el.classList.add('sel');
+  renderCards();
+}
+function setDl(el, val) {
+  document.querySelectorAll('.dl-btn').forEach(b => b.classList.remove('sel'));
+  el.classList.add('sel');
+  activeDl = val;
+  renderCards();
+}
+function setStream(s) {
+  activeStream = s;
+  document.querySelectorAll('.nav-pill').forEach((p,i) => {
+    p.classList.toggle('active', ['all','tender','job','grant'][i] === s);
+  });
+  document.querySelectorAll('.stream-tab').forEach((t,i) => {
+    t.classList.toggle('on', ['all','tender','job','grant'][i] === s);
+  });
+  renderCards();
+}
+function setTab(el, type) {
+  document.querySelectorAll('.stream-tab').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+  activeStream = type;
+  document.querySelectorAll('.nav-pill').forEach((p,i) => {
+    p.classList.toggle('active', ['all','tender','job','grant'][i] === type);
+  });
+  renderCards();
+}
+
+function getFiltered() {
+  const q = document.getElementById('search-input').value.toLowerCase();
+  const selCats = [...document.querySelectorAll('#cat-filters .filter-item.sel')].map(e => e.textContent.trim().replace(/\d+/g,'').trim());
+  const selCountries = [...document.querySelectorAll('.country-btn.sel')].map(e => e.dataset ? e.getAttribute('onclick').match(/'([^']+)'/)[1] : '');
+
+  return DATA.filter(d => {
+    if (activeStream !== 'all' && d.type !== activeStream) return false;
+    if (q && !d.title.toLowerCase().includes(q) && !d.org.toLowerCase().includes(q) && !d.cat.toLowerCase().includes(q)) return false;
+    if (selCats.length && !selCats.includes(d.cat)) return false;
+    if (selCountries.length > 0) {
+      const codes = [...document.querySelectorAll('.country-btn.sel')].map(e => {
+        const m = e.getAttribute('onclick').match(/'([^']+)'/);
+        return m ? m[1] : '';
+      });
+      if (codes.length && !codes.includes(d.country)) return false;
+    }
+    if (activeDl !== 'all' && d.deadline > parseInt(activeDl)) return false;
+    return true;
+  }).sort((a,b) => {
+    const s = document.getElementById('sort-sel').value;
+    if (s === 'deadline') return a.deadline - b.deadline;
+    if (s === 'newest') return (b.new ? 1 : 0) - (a.new ? 1 : 0);
+    return 0;
+  });
+}
+
+function countryClass(code) {
+  return {UG:'b-ug',KE:'b-ke',TZ:'b-tz',RW:'b-rw',ET:'b-et',INT:'b-int'}[code] || 'b-int';
+}
+function countryLabel(code) {
+  const c = COUNTRIES.find(x => x.code === code);
+  return c ? c.flag + ' ' + c.name : code;
+}
+function typeClass(t) { return {tender:'b-tender',job:'b-job',grant:'b-grant'}[t]; }
+function typeLabel(t) { return {tender:'Tender',job:'Job',grant:'Grant / Scholarship'}[t]; }
+function dlClass(d) { return d <= 5 ? 'dl-urgent' : d <= 14 ? 'dl-soon' : 'dl-ok'; }
+function dlLabel(d) { return d <= 5 ? `${d}d — urgent` : d <= 14 ? `${d} days left` : `${d} days left`; }
+
+function renderCards() {
+  const items = getFiltered();
+  document.getElementById('result-count').textContent = items.length;
+  document.getElementById('tc-all').textContent = DATA.length;
+  document.getElementById('tc-tender').textContent = DATA.filter(d=>d.type==='tender').length;
+  document.getElementById('tc-job').textContent = DATA.filter(d=>d.type==='job').length;
+  document.getElementById('tc-grant').textContent = DATA.filter(d=>d.type==='grant').length;
+
+  const container = document.getElementById('opp-list');
+  container.innerHTML = items.map((d, idx) => {
+    const locked = idx >= 5;
+    const saved = savedItems.has(d.id);
+    return `
+    <div class="opp-card ${locked ? 'locked' : ''}" id="card-${d.id}">
+      <div class="opp-card-top">
+        <div style="flex:1">
+          <div class="opp-badges">
+            <span class="badge ${typeClass(d.type)}">${typeLabel(d.type)}</span>
+            <span class="badge ${countryClass(d.country)}">${countryLabel(d.country)}</span>
+            ${d.new ? '<span class="badge b-new">New today</span>' : ''}
+            ${d.hot ? '<span class="badge b-hot">High value</span>' : ''}
+          </div>
+          <div class="opp-title">${d.title}</div>
+          <div class="opp-org">${d.org} · via ${d.source}</div>
+        </div>
+        <div class="opp-right">
+          <button class="save-btn ${saved ? 'saved' : ''}" onclick="toggleSave(event,${d.id})" title="${saved ? 'Saved' : 'Save'}">
+            ${saved ? '★' : '☆'}
+          </button>
+          <span class="value-chip">${d.value}</span>
+        </div>
+      </div>
+      <div class="opp-meta">
+        <span class="deadline-chip ${dlClass(d.deadline)}">${dlLabel(d.deadline)}</span>
+        <span class="opp-meta-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Deadline in ${d.deadline} days
+        </span>
+        <span class="opp-meta-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          ${d.cat}
+        </span>
+      </div>
+      ${locked ? `<div class="lock-overlay"><div class="lock-msg">🔒 Subscribe to unlock full details <button onclick="openModal()">Start free trial</button></div></div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function toggleSave(e, id) {
+  e.stopPropagation();
+  if (savedItems.has(id)) {
+    savedItems.delete(id);
+    showToast('Removed from saved');
+  } else {
+    savedItems.add(id);
+    showToast('Saved! View in your dashboard after subscribing.');
+  }
+  renderCards();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+function openModal() {
+  document.getElementById('modal-bg').classList.add('open');
+  document.getElementById('modal-content').innerHTML = `
+    <div class="modal-title">Start your free 14-day trial</div>
+    <div class="modal-sub">No card needed. Get every tender, job and grant across East Africa delivered to your WhatsApp every morning at 6 AM.</div>
+    <div class="modal-field"><label>Full name</label><input type="text" placeholder="Your name" id="m-name"></div>
+    <div class="modal-field"><label>WhatsApp number</label><input type="text" placeholder="+256 700 000000" id="m-phone"></div>
+    <div class="modal-field"><label>Email address</label><input type="email" placeholder="you@company.com" id="m-email"></div>
+    <div class="modal-field"><label>I am primarily looking for...</label>
+      <select id="m-type">
+        <option>Tenders & procurement contracts</option>
+        <option>Job vacancies</option>
+        <option>Grants & scholarships</option>
+        <option>All of the above</option>
+      </select>
+    </div>
+    <button class="modal-submit" onclick="submitTrial()">Start free trial — 14 days free</button>
+  `;
+}
+function closeModal() { document.getElementById('modal-bg').classList.remove('open'); }
+function closeModalBg(e) { if (e.target === document.getElementById('modal-bg')) closeModal(); }
+
+function submitTrial() {
+  document.getElementById('modal-content').innerHTML = `
+    <div class="modal-success">
+      <div class="big">🎉</div>
+      <div class="modal-title" style="margin-bottom:.5rem">You're in!</div>
+      <p>Your first daily digest lands on WhatsApp tomorrow at 6:00 AM EAT.<br><br>
+      You'll receive <strong>tenders, jobs and grants</strong> matching your profile from across East Africa.<br><br>
+      <em>Welcome to OpportunityRadar.</em></p>
+    </div>
+  `;
+  showToast('Welcome aboard! Check WhatsApp tomorrow at 6 AM.');
+}
+
+function buildTicker() {
+  const items = DATA.map(d => `📋 NEW: ${d.title} — ${d.org} (${d.deadline}d left)`).join('   ·   ');
+  const doubled = items + '   ·   ' + items;
+  document.getElementById('ticker-text').textContent = doubled;
+}
+
+function animateLiveCount() {
+  let base = 247;
+  setInterval(() => {
+    if (Math.random() > .7) {
+      base++;
+      document.getElementById('live-count').textContent = base;
+    }
+  }, 4000);
+}
+
+buildSidebar();
+buildTicker();
+renderCards();
+animateLiveCount();
+</script>
+</body>
+</html>
