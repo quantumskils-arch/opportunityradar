@@ -71,8 +71,11 @@ export default function Dashboard() {
               Live tenders from the production PostgreSQL API. Fresh data, beautifully formatted for high-speed browsing.
             </p>
                       {/* LISTMONK SIGNUP OVERRIDE */}
+                    {/* SECURE USER CAPTURE BLOCK */}
           <div className="bg-gray-800/40 border border-gray-700/50 p-5 rounded-xl max-w-xl my-4 text-left shadow-lg backdrop-blur-sm">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-2">Get Daily Email Alerts at 6:00 AM EAT</h3>
+            <p className="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-2">
+              Get Daily Email Alerts at 6:00 AM EAT
+            </p>
             <form 
               onSubmit={async (e) => {
                 e.preventDefault();
@@ -83,7 +86,7 @@ export default function Dashboard() {
                   const res = await fetch('http://187.77.117', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, name, list_uuids: ["YOUR_LISTMONK_LIST_UUID_HERE"] })
+                    body: JSON.stringify({ email, name, list_uuids: ["49192c8c-31db-4a38-894a-38c1b84be0e0"] })
                   });
                   if (res.ok) alert("Welcome! Check your inbox tomorrow morning for fresh opportunities.");
                 } catch (err) {
@@ -111,6 +114,7 @@ export default function Dashboard() {
               </button>
             </form>
           </div>
+
 
           </div>
           <div className="flex gap-3">
