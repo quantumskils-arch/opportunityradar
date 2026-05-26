@@ -2,543 +2,452 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OpportunityRadar — East Africa's Opportunity Intelligence Platform</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>OpportunityRadar — Tenders, Jobs & Grants in East Africa</title>
+<meta name="description" content="Daily tenders, NGO jobs, grants and scholarships across Uganda, Kenya, Tanzania, Rwanda and Ethiopia. Free alerts via email and WhatsApp.">
+<meta property="og:title" content="OpportunityRadar — East Africa Opportunity Intelligence">
+<meta property="og:description" content="Never miss a tender, job or grant again. Daily alerts for East Africa.">
+<meta property="og:image" content="https://opportunityradar.africa/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#0e0e0e;--ink2:#4a4a4a;--ink3:#888;--border:#e8e8e8;--surface:#f7f6f3;--white:#fff;--teal:#0f6e56;--teal-light:#e1f5ee;--teal-mid:#1d9e75;--amber:#854f0b;--amber-light:#faeeda;--blue:#185fa5;--blue-light:#e6f1fb;--purple:#3c3489;--purple-light:#eeedfe;--radius:10px;--radius-lg:16px}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--ink);min-height:100vh}
-nav{background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;height:58px;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.05)}
-.logo{font-family:'DM Serif Display',serif;font-size:20px;color:var(--ink);display:flex;align-items:center;gap:8px;text-decoration:none}
-.logo-dot{width:8px;height:8px;background:var(--teal-mid);border-radius:50%}
-.nav-links{display:flex;align-items:center;gap:6px}
-.nav-pill{padding:6px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid transparent;background:transparent;color:var(--ink2);transition:all .15s;font-family:'DM Sans',sans-serif}
-.nav-pill:hover{background:var(--surface)}
-.nav-pill.active{background:var(--teal-light);color:var(--teal);border-color:#9fe1cb}
-.nav-cta{background:var(--teal);color:var(--white);border:none;padding:7px 18px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
-.nav-cta:hover{opacity:.88}
-.hero{background:var(--teal);color:var(--white);padding:3rem 2rem 2.5rem;display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;flex-wrap:wrap}
-.hero-title{font-family:'DM Serif Display',serif;font-size:36px;line-height:1.15;margin-bottom:.75rem}
-.hero-sub{font-size:14px;opacity:.8;max-width:440px;line-height:1.6}
-.hero-stats{display:flex;gap:2rem;flex-shrink:0}
-.hstat{text-align:right}
-.hstat-val{font-family:'DM Serif Display',serif;font-size:32px}
-.hstat-lbl{font-size:11px;opacity:.7;margin-top:2px}
-.ticker{background:#0a5040;color:#9fe1cb;font-size:12px;font-weight:500;padding:7px 2rem;overflow:hidden;white-space:nowrap}
-.ticker-inner{display:inline-block;animation:tick 40s linear infinite}
-@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.main{display:grid;grid-template-columns:240px 1fr;gap:0;min-height:calc(100vh - 140px)}
-.sidebar{background:var(--white);border-right:1px solid var(--border);padding:1.5rem 1.25rem}
-.sidebar-label{font-size:10px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.75rem;margin-top:1.25rem}
-.sidebar-label:first-child{margin-top:0}
-.filter-item{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;border-radius:8px;cursor:pointer;font-size:13px;color:var(--ink2);transition:background .12s;border:none;background:transparent;width:100%;text-align:left;font-family:'DM Sans',sans-serif}
-.filter-item:hover{background:var(--surface)}
-.filter-item.sel{background:var(--teal-light);color:var(--teal);font-weight:500}
-.filter-count{font-size:11px;color:var(--ink3);background:var(--surface);padding:2px 7px;border-radius:10px}
-.filter-item.sel .filter-count{background:#9fe1cb;color:var(--teal)}
-.content{padding:1.5rem 1.75rem}
-.search-row{display:flex;gap:10px;margin-bottom:1.25rem}
-.search-wrap{flex:1;position:relative}
-.search-ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--ink3);font-size:15px}
-.search-input{width:100%;height:40px;border:1px solid var(--border);border-radius:10px;padding:0 12px 0 36px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);outline:none}
-.search-input:focus{border-color:var(--teal-mid)}
-.sort-sel{height:40px;border:1px solid var(--border);border-radius:10px;padding:0 12px;font-size:13px;font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);outline:none;cursor:pointer}
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.25rem}
-.stat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:.9rem 1rem}
-.stat-val{font-family:'DM Serif Display',serif;font-size:24px;color:var(--ink)}
-.stat-lbl{font-size:11px;color:var(--ink3);margin-top:2px}
-.stat-delta{font-size:11px;color:var(--teal);margin-top:4px}
-.tabs{display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:1.25rem}
-.tab{padding:10px 18px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--ink3);border-bottom:2px solid transparent;margin-bottom:-1px;font-family:'DM Sans',sans-serif}
-.tab.on{color:var(--teal);border-bottom-color:var(--teal)}
-.tab-count{display:inline-block;background:var(--teal-light);color:var(--teal);font-size:11px;padding:1px 7px;border-radius:10px;margin-left:6px}
-.results-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
-.results-count{font-size:13px;color:var(--ink3)}
-.results-count strong{color:var(--ink)}
-.opp-list{display:flex;flex-direction:column;gap:10px}
-.opp-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.1rem 1.25rem;cursor:pointer;transition:border-color .15s;position:relative}
-.opp-card:hover{border-color:#9fe1cb}
-.opp-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:.6rem}
-.badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.5rem}
-.badge{font-size:11px;font-weight:500;padding:2px 9px;border-radius:20px}
-.b-tender{background:var(--teal-light);color:var(--teal)}
-.b-job{background:var(--blue-light);color:var(--blue)}
-.b-grant{background:var(--purple-light);color:var(--purple)}
-.b-ug{background:#FFF3E0;color:#BF6000}
-.b-ke{background:#E8F5E9;color:#2E7D32}
-.b-tz{background:#E3F2FD;color:#1565C0}
-.b-rw{background:#FCE4EC;color:#880E4F}
-.b-et{background:#F3E5F5;color:#6A1B9A}
-.b-int{background:var(--surface);color:var(--ink2)}
-.b-new{background:#ffedd5;color:#9a3412}
-.opp-title{font-size:15px;font-weight:500;color:var(--ink);line-height:1.4;margin-bottom:.3rem}
-.opp-org{font-size:13px;color:var(--ink3)}
-.opp-meta{display:flex;align-items:center;gap:1.25rem;margin-top:.7rem;flex-wrap:wrap}
-.opp-meta-item{font-size:12px;color:var(--ink3)}
-.dl-chip{font-size:12px;font-weight:500;padding:3px 10px;border-radius:20px}
-.dl-urgent{background:var(--amber-light);color:var(--amber)}
-.dl-soon{background:var(--blue-light);color:var(--blue)}
-.dl-ok{background:var(--teal-light);color:var(--teal)}
-.opp-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
-.save-btn{width:32px;height:32px;border:1px solid var(--border);border-radius:8px;background:var(--white);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink3);font-size:16px}
-.save-btn.saved{background:var(--teal-light);color:var(--teal)}
-.view-btn{font-size:12px;color:var(--teal);font-weight:500;text-decoration:none;background:var(--teal-light);padding:4px 10px;border-radius:20px}
-.loading{text-align:center;padding:3rem;color:var(--ink3)}
-.loading-spinner{width:32px;height:32px;border:3px solid var(--border);border-top-color:var(--teal);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto 1rem}
-@keyframes spin{to{transform:rotate(360deg)}}
-.error-box{background:#FCEBEB;border-radius:var(--radius);padding:1rem;color:#A32D2D;font-size:13px;text-align:center;margin:2rem 0}
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;align-items:center;justify-content:center}
-.modal-bg.open{display:flex}
-.modal{background:var(--white);border-radius:var(--radius-lg);padding:2rem;width:480px;max-width:95vw;position:relative}
-.modal-close{position:absolute;top:1rem;right:1rem;background:var(--surface);border:none;border-radius:8px;width:30px;height:30px;cursor:pointer;font-size:16px;color:var(--ink2)}
-.modal-title{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:.4rem}
-.modal-sub{font-size:13px;color:var(--ink3);margin-bottom:1.25rem;line-height:1.5}
-.form-field{margin-bottom:1rem}
-.form-field label{display:block;font-size:12px;font-weight:500;color:var(--ink2);margin-bottom:5px}
-.form-field input,.form-field select{width:100%;height:40px;border:1px solid var(--border);border-radius:9px;padding:0 12px;font-size:14px;font-family:'DM Sans',sans-serif;background:var(--white);color:var(--ink);outline:none}
-.form-field input:focus{border-color:var(--teal-mid)}
-.submit-btn{width:100%;height:44px;background:var(--teal);color:var(--white);border:none;border-radius:10px;font-size:15px;font-weight:500;font-family:'DM Sans',sans-serif;cursor:pointer}
-.submit-btn:hover{opacity:.88}
-.success-box{text-align:center;padding:1rem 0}
-.toast{position:fixed;bottom:2rem;right:2rem;background:var(--ink);color:var(--white);padding:.75rem 1.25rem;border-radius:10px;font-size:13px;z-index:300;transform:translateY(80px);opacity:0;transition:all .3s;pointer-events:none}
-.toast.show{transform:translateY(0);opacity:1}
-.pricing{background:var(--white);border-top:1px solid var(--border);padding:3rem 2rem}
-.pricing-title{font-family:'DM Serif Display',serif;font-size:28px;text-align:center;margin-bottom:.5rem}
-.pricing-sub{text-align:center;color:var(--ink3);font-size:14px;margin-bottom:2rem}
-.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:860px;margin:0 auto}
-.price-card{border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;background:var(--white)}
-.price-card.featured{border:2px solid var(--teal-mid)}
-.price-name{font-size:13px;font-weight:500;color:var(--ink3);margin-bottom:.5rem}
-.price-amount{font-family:'DM Serif Display',serif;font-size:32px;color:var(--ink)}
-.price-period{font-size:13px;color:var(--ink3)}
-.price-ugx{font-size:12px;color:var(--ink3);margin-bottom:1rem}
-.price-features{list-style:none;font-size:13px;color:var(--ink2);display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem}
-.price-features li::before{content:'✓ ';color:var(--teal-mid);font-weight:500}
-.price-features li.no::before{content:'✕ ';color:var(--border)}
-.price-features li.no{color:var(--ink3)}
-.price-btn{width:100%;padding:10px;border-radius:10px;font-size:14px;font-weight:500;cursor:pointer;border:1px solid var(--border);background:var(--surface);color:var(--ink);font-family:'DM Sans',sans-serif}
-.price-card.featured .price-btn{background:var(--teal);color:var(--white);border-color:var(--teal)}
-footer{background:var(--ink);color:#888;font-size:12px;padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
-.footer-logo{font-family:'DM Serif Display',serif;font-size:16px;color:var(--white);display:flex;align-items:center;gap:6px}
-@media(max-width:768px){.main{grid-template-columns:1fr}.sidebar{display:none}.hero{flex-direction:column}.hero-stats{justify-content:flex-start}.pricing-grid{grid-template-columns:1fr}.stats-row{grid-template-columns:repeat(2,1fr)}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0A1628;
+  --navy2:#0f1f3d;
+  --green:#00C896;
+  --green2:#00a87e;
+  --amber:#F5A623;
+  --white:#ffffff;
+  --off:#F4F6FA;
+  --muted:#6B7A99;
+  --border:#E2E8F4;
+  --card:#ffffff;
+  --text:#0A1628;
+  --radius:14px;
+  --shadow:0 2px 20px rgba(10,22,40,0.08);
+}
+body{font-family:'DM Sans',sans-serif;background:var(--off);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* NAV */
+nav{background:var(--navy);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.15rem;color:var(--white);letter-spacing:-0.5px}
+.logo span{color:var(--green)}
+.nav-links{display:flex;gap:1.5rem;align-items:center}
+.nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.85rem;transition:color 0.2s}
+.nav-links a:hover{color:var(--white)}
+.nav-cta{background:var(--green);color:var(--navy)!important;font-weight:600;padding:0.4rem 1rem;border-radius:8px;font-size:0.82rem!important}
+.nav-menu{display:none;background:none;border:none;cursor:pointer;padding:4px}
+.nav-menu span{display:block;width:22px;height:2px;background:white;margin:5px 0;border-radius:2px}
+
+/* HERO */
+.hero{background:var(--navy);padding:3rem 1.5rem 2.5rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(0,200,150,0.12) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-40px;left:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(0,200,150,0.08) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(0,200,150,0.12);border:1px solid rgba(0,200,150,0.25);color:var(--green);font-size:0.75rem;font-weight:500;padding:0.3rem 0.8rem;border-radius:99px;margin-bottom:1.2rem}
+.pulse{width:7px;height:7px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.3)}}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,5vw,3rem);font-weight:800;color:var(--white);line-height:1.15;margin-bottom:0.8rem;letter-spacing:-1px}
+.hero h1 span{color:var(--green)}
+.hero p{color:rgba(255,255,255,0.65);font-size:clamp(0.9rem,2.5vw,1.05rem);max-width:520px;margin:0 auto 1.8rem;line-height:1.6}
+.hero-actions{display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap}
+.btn-primary{background:var(--green);color:var(--navy);font-weight:700;padding:0.75rem 1.5rem;border-radius:10px;border:none;cursor:pointer;font-size:0.9rem;font-family:'DM Sans',sans-serif;transition:transform 0.15s,background 0.15s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-primary:hover{background:var(--green2);transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--white);border:1.5px solid rgba(255,255,255,0.25);font-weight:500;padding:0.75rem 1.5rem;border-radius:10px;cursor:pointer;font-size:0.9rem;font-family:'DM Sans',sans-serif;transition:border-color 0.15s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-outline:hover{border-color:rgba(255,255,255,0.5)}
+
+/* STATS BAR */
+.stats-bar{background:var(--navy2);border-top:1px solid rgba(255,255,255,0.06);padding:1rem 1.5rem;display:flex;justify-content:center;gap:2.5rem;flex-wrap:wrap}
+.stat{text-align:center}
+.stat-num{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700;color:var(--green)}
+.stat-label{font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:1px}
+
+/* SEARCH */
+.search-wrap{padding:1.5rem;max-width:800px;margin:0 auto}
+.search-box{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1rem;display:flex;gap:0.75rem;flex-wrap:wrap;align-items:center}
+.search-input{flex:1;min-width:180px;border:1.5px solid var(--border);border-radius:8px;padding:0.6rem 0.9rem;font-size:0.9rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s}
+.search-input:focus{border-color:var(--green)}
+.search-select{border:1.5px solid var(--border);border-radius:8px;padding:0.6rem 0.9rem;font-size:0.85rem;font-family:'DM Sans',sans-serif;outline:none;background:white;cursor:pointer;color:var(--text)}
+.search-btn{background:var(--green);color:var(--navy);border:none;border-radius:8px;padding:0.65rem 1.2rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.88rem;white-space:nowrap}
+
+/* FILTERS */
+.filters{padding:0 1.5rem 1rem;max-width:800px;margin:0 auto;display:flex;gap:0.5rem;flex-wrap:wrap}
+.filter-pill{background:var(--white);border:1.5px solid var(--border);border-radius:99px;padding:0.35rem 0.9rem;font-size:0.78rem;font-weight:500;cursor:pointer;transition:all 0.15s;color:var(--muted)}
+.filter-pill:hover,.filter-pill.active{background:var(--navy);color:white;border-color:var(--navy)}
+.filter-pill.active-green{background:var(--green);color:var(--navy);border-color:var(--green)}
+
+/* MAIN LAYOUT */
+.main{max-width:800px;margin:0 auto;padding:0 1.5rem 6rem}
+
+/* SECTION HEADER */
+.section-head{display:flex;align-items:center;justify-content:space-between;margin:1.2rem 0 0.9rem}
+.section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--navy)}
+.section-count{font-size:0.78rem;color:var(--muted)}
+
+/* CARDS */
+.card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);padding:1.1rem 1.2rem;margin-bottom:0.75rem;transition:box-shadow 0.2s,transform 0.15s;cursor:pointer;text-decoration:none;display:block;color:inherit}
+.card:hover{box-shadow:0 4px 24px rgba(10,22,40,0.12);transform:translateY(-1px)}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:0.75rem;margin-bottom:0.5rem}
+.card-title{font-weight:600;font-size:0.92rem;line-height:1.45;flex:1;color:var(--navy)}
+.cat-badge{flex-shrink:0;font-size:0.68rem;font-weight:600;padding:0.25rem 0.6rem;border-radius:6px;text-transform:uppercase;letter-spacing:0.03em;white-space:nowrap}
+.cat-tender{background:#EBF5FF;color:#1565C0}
+.cat-job{background:#E8F5E9;color:#2E7D32}
+.cat-grant{background:#FFF8E1;color:#E65100}
+.cat-scholarship{background:#F3E5F5;color:#6A1B9A}
+.card-meta{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.meta-item{display:flex;align-items:center;gap:4px;font-size:0.75rem;color:var(--muted)}
+.meta-item svg{width:13px;height:13px;flex-shrink:0}
+.deadline{font-size:0.72rem;font-weight:600;padding:0.2rem 0.55rem;border-radius:6px}
+.deadline-urgent{background:#FFEBEE;color:#C62828}
+.deadline-soon{background:#FFF3E0;color:#E65100}
+.deadline-ok{background:#E8F5E9;color:#2E7D32}
+
+/* LOADING */
+.skeleton{background:linear-gradient(90deg,#f0f4f8 25%,#e2e8f0 50%,#f0f4f8 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:8px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-card{background:white;border-radius:var(--radius);border:1px solid var(--border);padding:1.1rem 1.2rem;margin-bottom:0.75rem}
+.skel-line{height:14px;margin-bottom:8px}
+.skel-line.short{width:40%}
+.skel-line.medium{width:65%}
+.skel-line.long{width:90%}
+
+/* EMPTY */
+.empty{text-align:center;padding:3rem 1rem;color:var(--muted)}
+.empty-icon{font-size:2.5rem;margin-bottom:0.75rem}
+.empty h3{font-family:'Syne',sans-serif;font-size:1rem;color:var(--navy);margin-bottom:0.4rem}
+
+/* PAGINATION */
+.pagination{display:flex;gap:0.5rem;justify-content:center;margin-top:1.5rem;flex-wrap:wrap}
+.page-btn{background:white;border:1.5px solid var(--border);border-radius:8px;padding:0.45rem 0.85rem;font-size:0.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.15s;color:var(--text)}
+.page-btn:hover,.page-btn.active{background:var(--navy);color:white;border-color:var(--navy)}
+.page-btn:disabled{opacity:0.4;cursor:not-allowed}
+
+/* EMAIL SIGNUP */
+.signup-card{background:var(--navy);border-radius:var(--radius);padding:1.5rem;margin:1.5rem 0;text-align:center}
+.signup-card h3{font-family:'Syne',sans-serif;color:white;font-size:1rem;margin-bottom:0.4rem}
+.signup-card p{color:rgba(255,255,255,0.6);font-size:0.82rem;margin-bottom:1rem}
+.signup-row{display:flex;gap:0.5rem;flex-wrap:wrap}
+.signup-input{flex:1;min-width:160px;border:none;border-radius:8px;padding:0.65rem 0.9rem;font-size:0.88rem;font-family:'DM Sans',sans-serif;outline:none}
+.signup-submit{background:var(--green);color:var(--navy);border:none;border-radius:8px;padding:0.65rem 1.1rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.85rem;white-space:nowrap}
+.signup-success{color:var(--green);font-size:0.85rem;margin-top:0.5rem;display:none}
+
+/* WHATSAPP FLOAT */
+.wa-float{position:fixed;bottom:1.5rem;right:1.5rem;z-index:200;background:#25D366;color:white;border-radius:50px;padding:0.75rem 1.1rem;display:flex;align-items:center;gap:8px;box-shadow:0 4px 20px rgba(37,211,102,0.4);text-decoration:none;font-weight:600;font-size:0.85rem;font-family:'DM Sans',sans-serif;transition:transform 0.15s,box-shadow 0.15s}
+.wa-float:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(37,211,102,0.5)}
+.wa-float svg{width:20px;height:20px;fill:white;flex-shrink:0}
+
+/* MOBILE NAV DRAWER */
+.mobile-menu{position:fixed;top:60px;left:0;right:0;background:var(--navy2);padding:1rem 1.5rem;z-index:99;display:none;flex-direction:column;gap:0.75rem;border-bottom:1px solid rgba(255,255,255,0.08)}
+.mobile-menu a{color:rgba(255,255,255,0.8);text-decoration:none;font-size:0.9rem;padding:0.4rem 0}
+.mobile-menu.open{display:flex}
+
+/* CATEGORY COUNTS */
+.cat-pills{display:flex;gap:0.5rem;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.cat-pills::-webkit-scrollbar{display:none}
+.cat-pill-count{background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:0.6rem 0.9rem;font-size:0.78rem;cursor:pointer;transition:all 0.15s;white-space:nowrap;flex-shrink:0}
+.cat-pill-count:hover,.cat-pill-count.active{border-color:var(--green);background:rgba(0,200,150,0.06)}
+.cat-pill-num{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;display:block;color:var(--navy)}
+.cat-pill-label{color:var(--muted);font-size:0.72rem}
+
+@media(max-width:600px){
+  .nav-links{display:none}
+  .nav-menu{display:block}
+  .stats-bar{gap:1.5rem}
+  .search-box{flex-direction:column}
+  .search-input,.search-select{width:100%}
+  .search-btn{width:100%}
+  .wa-float span{display:none}
+  .wa-float{padding:0.85rem}
+}
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="/" class="logo"><span class="logo-dot"></span>OpportunityRadar</a>
+  <div class="logo">Opportunity<span>Radar</span></div>
   <div class="nav-links">
-    <button class="nav-pill active" onclick="filterType('all')">All</button>
-    <button class="nav-pill" onclick="filterType('tender')">Tenders</button>
-    <button class="nav-pill" onclick="filterType('job')">Jobs</button>
-    <button class="nav-pill" onclick="filterType('grant')">Grants</button>
+    <a href="#" onclick="setFilter('','')">All</a>
+    <a href="#" onclick="setFilter('Government Tender','')">Tenders</a>
+    <a href="#" onclick="setFilter('Job','')">Jobs</a>
+    <a href="#" onclick="setFilter('Grant/Scholarship','')">Grants</a>
+    <a href="#" class="nav-cta" onclick="document.getElementById('signup').scrollIntoView({behavior:'smooth'})">Free Alerts</a>
   </div>
-  <div style="display:flex;gap:8px;align-items:center">
-    <span style="font-size:12px;color:var(--ink3);border:1px solid var(--border);border-radius:20px;padding:5px 12px">🇺🇬 Uganda</span>
-    <button class="nav-cta" onclick="openModal()">Subscribe →</button>
-  </div>
+  <button class="nav-menu" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#" onclick="setFilter('','');toggleMenu()">All Opportunities</a>
+  <a href="#" onclick="setFilter('Government Tender','');toggleMenu()">Tenders</a>
+  <a href="#" onclick="setFilter('Job','');toggleMenu()">Jobs</a>
+  <a href="#" onclick="setFilter('Grant/Scholarship','');toggleMenu()">Grants & Scholarships</a>
+  <a href="#" onclick="document.getElementById('signup').scrollIntoView({behavior:'smooth'});toggleMenu()">Get Free Alerts</a>
+</div>
+
 <div class="hero">
-  <div>
-    <div class="hero-title">East Africa's opportunity<br><em>intelligence platform</em></div>
-    <div class="hero-sub">Every tender, vacancy & grant across Uganda, Kenya, Tanzania, Rwanda and Ethiopia — scraped from 60+ sources, delivered daily to your inbox.</div>
-  </div>
-  <div class="hero-stats">
-    <div class="hstat"><div class="hstat-val" id="total-count">—</div><div class="hstat-lbl">opportunities live</div></div>
-    <div class="hstat"><div class="hstat-val">60+</div><div class="hstat-lbl">sources scraped</div></div>
-    <div class="hstat"><div class="hstat-val">5</div><div class="hstat-lbl">countries</div></div>
+  <div class="hero-badge"><div class="pulse"></div> Live · Updated daily</div>
+  <h1>East Africa's <span>Opportunity</span><br>Intelligence Platform</h1>
+  <p>Tenders, NGO jobs, grants and scholarships across Uganda, Kenya, Tanzania, Rwanda and Ethiopia — delivered daily.</p>
+  <div class="hero-actions">
+    <a href="#opportunities" class="btn-primary">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Browse Opportunities
+    </a>
+    <a href="#signup" class="btn-outline">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      Get Free Alerts
+    </a>
   </div>
 </div>
 
-<div class="ticker"><span class="ticker-inner" id="ticker">Loading live opportunities...</span></div>
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num" id="stat-total">—</div><div class="stat-label">Total Opportunities</div></div>
+  <div class="stat"><div class="stat-num" id="stat-today">—</div><div class="stat-label">Added Today</div></div>
+  <div class="stat"><div class="stat-num">5</div><div class="stat-label">Countries</div></div>
+  <div class="stat"><div class="stat-num">Daily</div><div class="stat-label">Update Frequency</div></div>
+</div>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <input class="search-input" type="text" id="searchInput" placeholder="Search tenders, jobs, grants..." oninput="debounceSearch()">
+    <select class="search-select" id="countryFilter" onchange="applyFilters()">
+      <option value="">All Countries</option>
+      <option value="Uganda">Uganda</option>
+      <option value="Kenya">Kenya</option>
+      <option value="Tanzania">Tanzania</option>
+      <option value="Rwanda">Rwanda</option>
+      <option value="Ethiopia">Ethiopia</option>
+      <option value="International">International</option>
+      <option value="East Africa">East Africa</option>
+    </select>
+    <button class="search-btn" onclick="applyFilters()">Search</button>
+  </div>
+</div>
 
 <div class="main">
-  <div class="sidebar">
-    <div class="sidebar-label">Category</div>
-    <button class="filter-item sel" onclick="filterCat(this,'all')">All categories <span class="filter-count" id="fc-all">—</span></button>
-    <button class="filter-item" onclick="filterCat(this,'Government Tender')">Government Tenders <span class="filter-count" id="fc-tender">—</span></button>
-    <button class="filter-item" onclick="filterCat(this,'Job')">Jobs <span class="filter-count" id="fc-job">—</span></button>
-    <button class="filter-item" onclick="filterCat(this,'Grant')">Grants <span class="filter-count" id="fc-grant">—</span></button>
-    <button class="filter-item" onclick="filterCat(this,'Scholarship')">Scholarships <span class="filter-count" id="fc-scholar">—</span></button>
-
-    <div class="sidebar-label">Country</div>
-    <button class="filter-item" onclick="filterCountry(this,'all')">All countries</button>
-    <button class="filter-item" onclick="filterCountry(this,'Uganda')">🇺🇬 Uganda</button>
-    <button class="filter-item" onclick="filterCountry(this,'Kenya')">🇰🇪 Kenya</button>
-    <button class="filter-item" onclick="filterCountry(this,'Tanzania')">🇹🇿 Tanzania</button>
-    <button class="filter-item" onclick="filterCountry(this,'Rwanda')">🇷🇼 Rwanda</button>
-    <button class="filter-item" onclick="filterCountry(this,'Ethiopia')">🇪🇹 Ethiopia</button>
-
-    <div class="sidebar-label">Source</div>
-    <button class="filter-item sel" onclick="filterSrc(this,'all')">All sources <span class="filter-count">60+</span></button>
-    <button class="filter-item" onclick="filterSrc(this,'EGP Uganda (PPDA)')">PPDA Uganda <span class="filter-count" id="fs-ppda">—</span></button>
-    <button class="filter-item" onclick="filterSrc(this,'ReliefWeb')">ReliefWeb <span class="filter-count">—</span></button>
-    <button class="filter-item" onclick="filterSrc(this,'UNGM')">UNGM <span class="filter-count">—</span></button>
+  <div class="cat-pills" id="catPills">
+    <div class="cat-pill-count active" onclick="setFilter('','')">
+      <span class="cat-pill-num" id="cp-all">—</span>
+      <span class="cat-pill-label">All</span>
+    </div>
+    <div class="cat-pill-count" onclick="setFilter('Government Tender','')">
+      <span class="cat-pill-num" id="cp-tender">—</span>
+      <span class="cat-pill-label">Tenders</span>
+    </div>
+    <div class="cat-pill-count" onclick="setFilter('Job','')">
+      <span class="cat-pill-num" id="cp-job">—</span>
+      <span class="cat-pill-label">Jobs</span>
+    </div>
+    <div class="cat-pill-count" onclick="setFilter('Grant/Scholarship','')">
+      <span class="cat-pill-num" id="cp-grant">—</span>
+      <span class="cat-pill-label">Grants & Scholarships</span>
+    </div>
   </div>
 
-  <div class="content">
-    <div class="stats-row">
-      <div class="stat-card"><div class="stat-val" id="s-tenders">—</div><div class="stat-lbl">Tenders live</div><div class="stat-delta" id="s-delta">Updated daily at 6am EAT</div></div>
-      <div class="stat-card"><div class="stat-val" id="s-jobs">0</div><div class="stat-lbl">Jobs today</div><div class="stat-delta">Coming soon</div></div>
-      <div class="stat-card"><div class="stat-val" id="s-grants">0</div><div class="stat-lbl">Grants & scholarships</div><div class="stat-delta">Coming soon</div></div>
-      <div class="stat-card"><div class="stat-val">$2.4B</div><div class="stat-lbl">Est. contract value</div><div class="stat-delta">Active tenders this month</div></div>
+  <div id="opportunities">
+    <div class="section-head">
+      <div class="section-title" id="sectionTitle">Latest Opportunities</div>
+      <div class="section-count" id="sectionCount"></div>
     </div>
+    <div id="cardContainer"></div>
+    <div class="pagination" id="pagination"></div>
+  </div>
 
-    <div class="search-row">
-      <div class="search-wrap">
-        <span class="search-ico">🔍</span>
-        <input class="search-input" id="search-input" placeholder="Search tenders, organisations, categories..." oninput="renderCards()">
-      </div>
-      <select class="sort-sel" id="sort-sel" onchange="renderCards()">
-        <option value="newest">Newest first</option>
-        <option value="deadline">Deadline soonest</option>
-        <option value="az">A–Z</option>
-      </select>
+  <div class="signup-card" id="signup">
+    <h3>🔔 Get Daily Alerts — Free</h3>
+    <p>New tenders, jobs and grants delivered to your inbox every morning at 7am EAT</p>
+    <div class="signup-row">
+      <input class="signup-input" type="email" id="emailInput" placeholder="your@email.com">
+      <button class="signup-submit" onclick="subscribe()">Subscribe Free</button>
     </div>
-
-    <div class="tabs">
-      <button class="tab on" onclick="switchTab(this,'all')">All <span class="tab-count" id="tc-all">—</span></button>
-      <button class="tab" onclick="switchTab(this,'tender')">Tenders <span class="tab-count" id="tc-tender">—</span></button>
-      <button class="tab" onclick="switchTab(this,'job')">Jobs <span class="tab-count" id="tc-job">0</span></button>
-      <button class="tab" onclick="switchTab(this,'grant')">Grants <span class="tab-count" id="tc-grant">0</span></button>
-    </div>
-
-    <div class="results-hdr">
-      <div class="results-count"><strong id="result-count">—</strong> opportunities · <span id="last-updated">loading...</span></div>
-    </div>
-
-    <div id="opp-list" class="opp-list">
-      <div class="loading"><div class="loading-spinner"></div>Loading live opportunities from East Africa...</div>
-    </div>
+    <div class="signup-success" id="signupSuccess">✓ You're subscribed! Check your inbox.</div>
   </div>
 </div>
 
-<div class="pricing">
-  <div class="pricing-title">Simple, honest pricing</div>
-  <div class="pricing-sub">Pay via MTN Mobile Money or Airtel Money. Cancel anytime.</div>
-  <div class="pricing-grid">
-    <div class="price-card">
-      <div class="price-name">Seeker</div>
-      <div class="price-amount">$4 <span class="price-period">/mo</span></div>
-      <div class="price-ugx">≈ UGX 15,000/month</div>
-      <ul class="price-features">
-        <li>Daily email digest</li>
-        <li>Job vacancies only</li>
-        <li>2 country alerts</li>
-        <li class="no">Tender access</li>
-        <li class="no">Grants & scholarships</li>
-      </ul>
-      <button class="price-btn" onclick="openModal()">Start free trial</button>
-    </div>
-    <div class="price-card featured">
-      <div style="background:var(--teal-light);color:var(--teal);font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:.75rem">Most popular</div>
-      <div class="price-name">Business</div>
-      <div class="price-amount">$20 <span class="price-period">/mo</span></div>
-      <div class="price-ugx">≈ UGX 75,000/month</div>
-      <ul class="price-features">
-        <li>Everything in Seeker</li>
-        <li>Full tender access</li>
-        <li>All 5 countries</li>
-        <li>Deadline reminders</li>
-        <li>Grants & scholarships</li>
-      </ul>
-      <button class="price-btn" onclick="openModal()">Start free trial</button>
-    </div>
-    <div class="price-card">
-      <div class="price-name">Agency</div>
-      <div class="price-amount">$50 <span class="price-period">/mo</span></div>
-      <div class="price-ugx">≈ UGX 185,000/month</div>
-      <ul class="price-features">
-        <li>Everything in Business</li>
-        <li>5 team members</li>
-        <li>API access</li>
-        <li>Historical archive</li>
-        <li>Priority support</li>
-      </ul>
-      <button class="price-btn" onclick="openModal()">Contact us</button>
-    </div>
-  </div>
-</div>
-
-<footer>
-  <div class="footer-logo"><span class="logo-dot" style="background:#1d9e75"></span>OpportunityRadar</div>
-  <div>Scraping 60+ sources across Uganda · Kenya · Tanzania · Rwanda · Ethiopia — updated daily at 6:00 AM EAT</div>
-  <div>© 2026 OpportunityRadar EA · opportunityradar.africa</div>
-</footer>
-
-<div class="modal-bg" id="modal-bg" onclick="closeModalBg(event)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <div id="modal-content">
-      <div class="modal-title">Start your free 14-day trial</div>
-      <div class="modal-sub">Get every tender, job and grant across East Africa delivered to your inbox every morning at 6 AM. No card needed.</div>
-      <div class="form-field"><label>Full name</label><input type="text" id="m-name" placeholder="Your name"></div>
-      <div class="form-field"><label>Email address</label><input type="email" id="m-email" placeholder="you@company.com"></div>
-      <div class="form-field"><label>WhatsApp number</label><input type="text" id="m-phone" placeholder="+256 700 000000"></div>
-      <div class="form-field"><label>I am looking for...</label>
-        <select id="m-type">
-          <option>Tenders & procurement contracts</option>
-          <option>Job vacancies</option>
-          <option>Grants & scholarships</option>
-          <option>All of the above</option>
-        </select>
-      </div>
-      <button class="submit-btn" onclick="submitTrial()">Start free trial — 14 days free</button>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
+<a class="wa-float" href="https://wa.me/256778030847?text=Hi%20OpportunityRadar%2C%20I%20want%20daily%20alerts" target="_blank">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+  <span>WhatsApp Alerts</span>
+</a>
 
 <script>
-// ============================================================
-// CONFIG — update API_URL after setting up n8n webhook
-// ============================================================
-const API_URL = '/api/tenders';
-const FALLBACK_MODE = true; // set to false after API is confirmed working
+const API = 'http://187.77.117.32:9500';
+let currentPage = 1;
+let currentCategory = '';
+let currentCountry = '';
+let currentSearch = '';
+let searchTimer = null;
+let totalCount = 0;
 
-// ============================================================
-// STATE
-// ============================================================
-let ALL_DATA = [];
-let activeType = 'all';
-let activeCat = 'all';
-let activeCountry = 'all';
-let activeSrc = 'all';
-let saved = new Set();
+function toggleMenu(){
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
 
-// ============================================================
-// FETCH REAL DATA FROM VPS
-// ============================================================
-async function fetchTenders() {
-  const list = document.getElementById('opp-list');
-  try {
-    const res = await fetch(API_URL, {
-      method: 'GET',
-      headers: { 'Accept': 'application/json' },
-      mode: 'cors'
-    });
-    if (!res.ok) throw new Error('API error ' + res.status);
-    const data = await res.json();
-    ALL_DATA = Array.isArray(data) ? data : (data.data || []);
-    if (ALL_DATA.length === 0) throw new Error('Empty response');
-    updateStats();
-    buildTicker();
-    renderCards();
-    document.getElementById('last-updated').textContent = 'Live data · updated today at 6am EAT';
-  } catch(err) {
-    console.warn('API fetch failed:', err.message);
-    loadFallback();
+function catClass(cat){
+  if(!cat) return 'cat-tender';
+  const c = cat.toLowerCase();
+  if(c.includes('tender')) return 'cat-tender';
+  if(c.includes('job')) return 'cat-job';
+  if(c.includes('grant')) return 'cat-grant';
+  if(c.includes('scholar')) return 'cat-scholarship';
+  return 'cat-tender';
+}
+
+function catLabel(cat){
+  if(!cat) return 'Tender';
+  const c = cat.toLowerCase();
+  if(c.includes('government tender')) return 'Tender';
+  if(c.includes('job')) return 'Job';
+  if(c.includes('grant') || c.includes('scholar')) return 'Grant';
+  return cat;
+}
+
+function deadlineClass(dl){
+  if(!dl) return '';
+  const d = new Date(dl);
+  if(isNaN(d)) return '';
+  const days = Math.ceil((d - new Date()) / 86400000);
+  if(days < 0) return '';
+  if(days <= 5) return 'deadline-urgent';
+  if(days <= 14) return 'deadline-soon';
+  return 'deadline-ok';
+}
+
+function deadlineText(dl){
+  if(!dl || dl === 'None' || dl === '') return '';
+  const d = new Date(dl);
+  if(isNaN(d)) return dl;
+  const days = Math.ceil((d - new Date()) / 86400000);
+  if(days < 0) return 'Closed';
+  if(days === 0) return 'Closes today';
+  if(days === 1) return '1 day left';
+  if(days <= 30) return days + ' days left';
+  return d.toLocaleDateString('en-UG',{day:'numeric',month:'short'});
+}
+
+function renderSkeletons(){
+  let h = '';
+  for(let i=0;i<6;i++){
+    h += `<div class="skel-card"><div class="skeleton skel-line long"></div><div class="skeleton skel-line medium" style="margin-top:10px"></div><div class="skeleton skel-line short" style="margin-top:8px"></div></div>`;
   }
+  document.getElementById('cardContainer').innerHTML = h;
 }
 
-function loadFallback() {
-  // Show message that data is loading
-  ALL_DATA = [
-    {id:1,title:'UCAA/SUPLS/2025-2026/00089 Uganda Civil Aviation Authority',organisation:'Supplies',deadline:'2026-05-28',link:'https://egpuganda.go.ug',category:'Government Tender',country:'Uganda',source:'EGP Uganda (PPDA)',scraped_at:new Date().toISOString()},
-    {id:2,title:'KCCA/NCONS/2025-2026/01360 Kampala Capital City Authority',organisation:'Non Consultancy Services',deadline:'2026-05-30',link:'https://egpuganda.go.ug',category:'Government Tender',country:'Uganda',source:'EGP Uganda (PPDA)',scraped_at:new Date().toISOString()},
-    {id:3,title:'MOPS/SUPLS/2025-2026/00115 Ministry of Public Service',organisation:'Supplies',deadline:'2026-06-05',link:'https://egpuganda.go.ug',category:'Government Tender',country:'Uganda',source:'EGP Uganda (PPDA)',scraped_at:new Date().toISOString()},
-    {id:4,title:'MoLHUD/SUPLS/2025-2026/00184 Ministry of Lands, Housing and Urban Development',organisation:'Supplies',deadline:'2026-06-10',link:'https://egpuganda.go.ug',category:'Government Tender',country:'Uganda',source:'EGP Uganda (PPDA)',scraped_at:new Date().toISOString()},
-    {id:5,title:'UCAA/SUPLS/2025-2026/00111 Uganda Civil Aviation Authority',organisation:'Supplies',deadline:'2026-06-15',link:'https://egpuganda.go.ug',category:'Government Tender',country:'Uganda',source:'EGP Uganda (PPDA)',scraped_at:new Date().toISOString()}
-  ];
-  updateStats();
-  buildTicker();
-  renderCards();
-  document.getElementById('last-updated').textContent = 'Showing sample data · API connecting...';
-}
-
-// ============================================================
-// STATS
-// ============================================================
-function updateStats() {
-  const tenders = ALL_DATA.filter(d => d.category === 'Government Tender');
-  const jobs = ALL_DATA.filter(d => d.category === 'Job');
-  const grants = ALL_DATA.filter(d => d.category === 'Grant' || d.category === 'Scholarship');
-  document.getElementById('total-count').textContent = ALL_DATA.length;
-  document.getElementById('s-tenders').textContent = tenders.length;
-  document.getElementById('s-jobs').textContent = jobs.length;
-  document.getElementById('s-grants').textContent = grants.length;
-  document.getElementById('fc-all').textContent = ALL_DATA.length;
-  document.getElementById('fc-tender').textContent = tenders.length;
-  document.getElementById('fc-job').textContent = jobs.length;
-  document.getElementById('fc-grant').textContent = grants.length;
-  document.getElementById('fs-ppda').textContent = ALL_DATA.filter(d=>d.source==='EGP Uganda (PPDA)').length;
-  document.getElementById('tc-all').textContent = ALL_DATA.length;
-  document.getElementById('tc-tender').textContent = tenders.length;
-  document.getElementById('tc-job').textContent = jobs.length;
-  document.getElementById('tc-grant').textContent = grants.length;
-}
-
-// ============================================================
-// TICKER
-// ============================================================
-function buildTicker() {
-  const items = ALL_DATA.slice(0,20).map(d => `📋 ${d.title} — ${d.organisation}`).join('   ·   ');
-  const doubled = items + '   ·   ' + items;
-  document.getElementById('ticker').textContent = doubled;
-}
-
-// ============================================================
-// FILTERS
-// ============================================================
-function filterType(type) {
-  activeType = type;
-  document.querySelectorAll('.nav-pill').forEach((p,i)=>p.classList.toggle('active',['all','tender','job','grant'][i]===type));
-  renderCards();
-}
-function filterCat(el, cat) {
-  activeCat = cat;
-  document.querySelectorAll('.filter-item').forEach(b=>{if(b.onclick&&b.onclick.toString().includes('filterCat'))b.classList.remove('sel')});
-  el.classList.add('sel');
-  renderCards();
-}
-function filterCountry(el, country) {
-  activeCountry = country;
-  document.querySelectorAll('.filter-item').forEach(b=>{if(b.onclick&&b.onclick.toString().includes('filterCountry'))b.classList.remove('sel')});
-  el.classList.add('sel');
-  renderCards();
-}
-function filterSrc(el, src) {
-  activeSrc = src;
-  document.querySelectorAll('.filter-item').forEach(b=>{if(b.onclick&&b.onclick.toString().includes('filterSrc'))b.classList.remove('sel')});
-  el.classList.add('sel');
-  renderCards();
-}
-function switchTab(el, type) {
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
-  el.classList.add('on');
-  activeType = type;
-  renderCards();
-}
-
-// ============================================================
-// RENDER
-// ============================================================
-function getFiltered() {
-  const q = document.getElementById('search-input').value.toLowerCase();
-  const sort = document.getElementById('sort-sel').value;
-  let data = ALL_DATA.filter(d => {
-    if(activeCountry !== 'all' && d.country !== activeCountry) return false;
-    if(activeSrc !== 'all' && d.source !== activeSrc) return false;
-    if(activeCat !== 'all' && d.category !== activeCat) return false;
-    if(q && !d.title.toLowerCase().includes(q) && !d.organisation.toLowerCase().includes(q)) return false;
-    return true;
-  });
-  if(sort === 'deadline') data.sort((a,b)=>new Date(a.deadline)-new Date(b.deadline));
-  else if(sort === 'az') data.sort((a,b)=>a.title.localeCompare(b.title));
-  else data.sort((a,b)=>new Date(b.scraped_at)-new Date(a.scraped_at));
-  return data;
-}
-
-function countryFlag(c) {
-  const flags = {Uganda:'🇺🇬',Kenya:'🇰🇪',Tanzania:'🇹🇿',Rwanda:'🇷🇼',Ethiopia:'🇪🇹'};
-  return flags[c] || '🌍';
-}
-function countryClass(c) {
-  const cls = {Uganda:'b-ug',Kenya:'b-ke',Tanzania:'b-tz',Rwanda:'b-rw',Ethiopia:'b-et'};
-  return cls[c] || 'b-int';
-}
-function dlDays(deadline) {
-  if(!deadline) return 999;
-  const d = new Date(deadline);
-  const now = new Date();
-  return Math.ceil((d-now)/(1000*60*60*24));
-}
-function dlClass(days) {
-  if(days<=5) return 'dl-urgent';
-  if(days<=14) return 'dl-soon';
-  return 'dl-ok';
-}
-function dlLabel(days, deadline) {
-  if(!deadline) return 'See tender';
-  if(days<0) return 'Closed';
-  if(days===0) return 'Closes today';
-  if(days<=5) return `${days}d — urgent`;
-  return `${days} days left`;
-}
-function isNew(d) {
-  const scraped = new Date(d.scraped_at);
-  const now = new Date();
-  return (now - scraped) < 24*60*60*1000;
-}
-
-function renderCards() {
-  const items = getFiltered();
-  document.getElementById('result-count').textContent = items.length;
-  const container = document.getElementById('opp-list');
-  if(items.length === 0) {
-    container.innerHTML = '<div class="loading">No opportunities found matching your filters.</div>';
+function renderCards(data){
+  const c = document.getElementById('cardContainer');
+  if(!data.results || data.results.length === 0){
+    c.innerHTML = `<div class="empty"><div class="empty-icon">🔍</div><h3>No opportunities found</h3><p>Try different filters or check back tomorrow for new listings.</p></div>`;
+    document.getElementById('pagination').innerHTML = '';
     return;
   }
-  container.innerHTML = items.map((d,idx) => {
-    const days = dlDays(d.deadline);
-    const isSaved = saved.has(d.id);
-    const locked = idx >= 5;
-    return `
-    <div class="opp-card" id="card-${d.id}">
-      <div class="opp-top">
-        <div style="flex:1">
-          <div class="badges">
-            <span class="badge b-tender">Tender</span>
-            <span class="badge ${countryClass(d.country)}">${countryFlag(d.country)} ${d.country}</span>
-            ${isNew(d) ? '<span class="badge b-new">New today</span>' : ''}
-          </div>
-          <div class="opp-title">${d.title}</div>
-          <div class="opp-org">${d.organisation} · via ${d.source}</div>
-        </div>
-        <div class="opp-right">
-          <button class="save-btn ${isSaved?'saved':''}" onclick="toggleSave(event,${d.id})">${isSaved?'★':'☆'}</button>
-          ${locked ? '' : `<a href="${d.link}" target="_blank" class="view-btn">View →</a>`}
-        </div>
+  let h = '';
+  data.results.forEach(r => {
+    const dl = deadlineText(r.deadline);
+    const dlClass = deadlineClass(r.deadline);
+    const cc = catClass(r.category);
+    const cl = catLabel(r.category);
+    const target = r.link ? `href="${r.link}" target="_blank" rel="noopener"` : '';
+    h += `<a class="card" ${target}>
+      <div class="card-top">
+        <div class="card-title">${r.title}</div>
+        <span class="cat-badge ${cc}">${cl}</span>
       </div>
-      <div class="opp-meta">
-        <span class="dl-chip ${dlClass(days)}">${dlLabel(days, d.deadline)}</span>
-        ${d.deadline ? `<span class="opp-meta-item">📅 Deadline: ${d.deadline}</span>` : ''}
-        <span class="opp-meta-item">📁 ${d.category}</span>
+      <div class="card-meta">
+        ${r.organisation ? `<span class="meta-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>${r.organisation}</span>` : ''}
+        ${r.country ? `<span class="meta-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>${r.country}</span>` : ''}
+        ${r.source ? `<span class="meta-item"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>${r.source}</span>` : ''}
+        ${dl && dlClass ? `<span class="deadline ${dlClass}">${dl}</span>` : ''}
       </div>
-      ${locked ? `<div style="margin-top:12px;background:var(--surface);border-radius:8px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--ink3)">
-        🔒 Subscribe to unlock full details and direct link
-        <button onclick="openModal()" style="background:var(--teal);color:#fff;border:none;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer">Start free trial</button>
-      </div>` : ''}
-    </div>`;
-  }).join('');
+    </a>`;
+  });
+  c.innerHTML = h;
+  renderPagination(data.total, data.page, data.limit);
+  totalCount = data.total;
+  document.getElementById('sectionCount').textContent = data.total + ' results';
 }
 
-// ============================================================
-// INTERACTIONS
-// ============================================================
-function toggleSave(e, id) {
-  e.stopPropagation();
-  if(saved.has(id)){saved.delete(id);showToast('Removed from saved');}
-  else{saved.add(id);showToast('Saved! Subscribe to access your saved tenders.');}
-  renderCards();
-}
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2800);
-}
-function openModal(){document.getElementById('modal-bg').classList.add('open')}
-function closeModal(){document.getElementById('modal-bg').classList.remove('open')}
-function closeModalBg(e){if(e.target===document.getElementById('modal-bg'))closeModal()}
-function submitTrial() {
-  document.getElementById('modal-content').innerHTML = `
-    <div class="success-box">
-      <div style="font-size:40px;margin-bottom:.5rem">🎉</div>
-      <div class="modal-title" style="margin-bottom:.5rem">You are in!</div>
-      <p style="font-size:13px;color:var(--ink3);line-height:1.6">Your first daily digest lands in your inbox tomorrow at 6:00 AM EAT.<br><br>You will receive tenders, jobs and grants from across East Africa.<br><br><em>Welcome to OpportunityRadar.</em></p>
-    </div>`;
-  showToast('Welcome aboard! Check your email tomorrow at 6 AM.');
+function renderPagination(total, page, limit){
+  const pages = Math.ceil(total / limit);
+  if(pages <= 1){ document.getElementById('pagination').innerHTML=''; return; }
+  let h = '';
+  h += `<button class="page-btn" onclick="goPage(${page-1})" ${page===1?'disabled':''}>← Prev</button>`;
+  const start = Math.max(1, page-2);
+  const end = Math.min(pages, page+2);
+  if(start > 1) h += `<button class="page-btn" onclick="goPage(1)">1</button>${start>2?'<span style="padding:0 4px;color:var(--muted)">…</span>':''}`;
+  for(let i=start;i<=end;i++){
+    h += `<button class="page-btn ${i===page?'active':''}" onclick="goPage(${i})">${i}</button>`;
+  }
+  if(end < pages) h += `${end<pages-1?'<span style="padding:0 4px;color:var(--muted)">…</span>':''}<button class="page-btn" onclick="goPage(${pages})">${pages}</button>`;
+  h += `<button class="page-btn" onclick="goPage(${page+1})" ${page===pages?'disabled':''}>Next →</button>`;
+  document.getElementById('pagination').innerHTML = h;
 }
 
-// ============================================================
-// INIT
-// ============================================================
-fetchTenders();
+function goPage(p){ currentPage = p; loadOpportunities(); window.scrollTo({top:document.getElementById('opportunities').offsetTop - 80, behavior:'smooth'}); }
+
+async function loadOpportunities(){
+  renderSkeletons();
+  let url = `${API}/api/opportunities?page=${currentPage}&limit=15`;
+  if(currentCategory) url += `&category=${encodeURIComponent(currentCategory)}`;
+  if(currentCountry) url += `&country=${encodeURIComponent(currentCountry)}`;
+  if(currentSearch) url += `&search=${encodeURIComponent(currentSearch)}`;
+  try {
+    const r = await fetch(url);
+    const d = await r.json();
+    renderCards(d);
+  } catch(e) {
+    document.getElementById('cardContainer').innerHTML = `<div class="empty"><div class="empty-icon">⚡</div><h3>Loading opportunities...</h3><p>Connecting to live database. Please refresh in a moment.</p></div>`;
+  }
+}
+
+async function loadStats(){
+  try {
+    const r = await fetch(`${API}/api/stats`);
+    const d = await r.json();
+    document.getElementById('stat-total').textContent = d.total || '—';
+    document.getElementById('stat-today').textContent = d.today || '—';
+    document.getElementById('cp-all').textContent = d.total || '—';
+    const bc = d.by_category || {};
+    document.getElementById('cp-tender').textContent = bc['Government Tender'] || '0';
+    document.getElementById('cp-job').textContent = (bc['Job'] || 0);
+    document.getElementById('cp-grant').textContent = (bc['Grant/Scholarship'] || 0);
+  } catch(e){}
+}
+
+function setFilter(cat, country){
+  currentCategory = cat;
+  currentCountry = country || document.getElementById('countryFilter').value;
+  currentPage = 1;
+  document.querySelectorAll('.cat-pill-count').forEach(el => el.classList.remove('active'));
+  const map = {'':'cp-all','Government Tender':'cp-tender','Job':'cp-job','Grant/Scholarship':'cp-grant'};
+  const el = document.getElementById(map[cat] || 'cp-all');
+  if(el) el.closest('.cat-pill-count').classList.add('active');
+  const title = cat || 'Latest Opportunities';
+  document.getElementById('sectionTitle').textContent = title === 'Government Tender' ? 'Government Tenders' : title === 'Grant/Scholarship' ? 'Grants & Scholarships' : title;
+  loadOpportunities();
+  document.getElementById('opportunities').scrollIntoView({behavior:'smooth'});
+}
+
+function applyFilters(){
+  currentCountry = document.getElementById('countryFilter').value;
+  currentSearch = document.getElementById('searchInput').value.trim();
+  currentPage = 1;
+  loadOpportunities();
+}
+
+function debounceSearch(){
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(applyFilters, 500);
+}
+
+function subscribe(){
+  const email = document.getElementById('emailInput').value.trim();
+  if(!email || !email.includes('@')){ alert('Please enter a valid email address'); return; }
+  document.getElementById('signupSuccess').style.display = 'block';
+  document.getElementById('emailInput').value = '';
+}
+
+loadStats();
+loadOpportunities();
 </script>
 </body>
 </html>
